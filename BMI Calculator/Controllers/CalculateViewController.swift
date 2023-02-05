@@ -14,7 +14,8 @@ class CalculateViewController: UIViewController {
     @IBOutlet weak var weightSlider: UISlider!
     @IBOutlet weak var weightLabel: UILabel!
     
-    var bmi: Float = 0.0
+    var calculatorBrain = CalculatorBrain()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -35,8 +36,7 @@ class CalculateViewController: UIViewController {
         let height = heightSlider.value
         let weight = weightSlider.value
         
-    
-        bmi = weight / (height * height)
+        calculatorBrain.calculateBMI(height: height, weight: weight)
         // Method every UIViewController has to be able to do a segue
         self.performSegue(withIdentifier: "goToResult", sender: self) // self keyword here is optional
         
@@ -51,7 +51,10 @@ class CalculateViewController: UIViewController {
             // we cannot stop at let destinationVC = segue.destination because the value returns a basic UIViewController;
             // we, however, need a specific view controller (ResultsViewController) by downcasting ('as' keyword).
             let destinationVC = segue.destination as! ResultsViewController
-            destinationVC.bmiValue = String(format: "%.1f", bmi)
+            destinationVC.bmiValue = calculatorBrain.getBMIValue()
+            
+            destinationVC.advice = calculatorBrain.getAdvice()
+            destinationVC.color = calculatorBrain.getColor() 
         }
     }
     

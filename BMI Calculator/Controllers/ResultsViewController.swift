@@ -16,12 +16,14 @@ class ResultsViewController: UIViewController {
     @IBOutlet weak var resultLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
+        resultLabel.text = bmiValue
     }
     
 
     @IBAction func recalculatePressed(_ sender: UIButton) {
+        // self is optional 
+        self.dismiss(animated: true, completion: nil)
     }
     /*
     // MARK: - Navigation

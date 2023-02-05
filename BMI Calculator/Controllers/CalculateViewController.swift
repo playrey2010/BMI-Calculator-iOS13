@@ -11,9 +11,10 @@ import UIKit
 class CalculateViewController: UIViewController {
     @IBOutlet weak var heightSlider: UISlider!
     @IBOutlet weak var heightLabel: UILabel!
-    
     @IBOutlet weak var weightSlider: UISlider!
     @IBOutlet weak var weightLabel: UILabel!
+    
+    var bmi: Float = 0.0
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -35,13 +36,23 @@ class CalculateViewController: UIViewController {
         let weight = weightSlider.value
         
     
-        let bmi = weight / (height * height)
-//        print(bmi)
-        self.performSegue(withIdentifier: "goToResult", sender: self)
+        bmi = weight / (height * height)
+        // Method every UIViewController has to be able to do a segue
+        self.performSegue(withIdentifier: "goToResult", sender: self) // self keyword here is optional
         
     }
+    
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        <#code#>
+        // use sender.destination to establish the receiving second view
+        
+        // Use a conditional statement to check for correct segue identifier
+        if segue.identifier == "goToResult" {
+            // we cannot stop at let destinationVC = segue.destination because the value returns a basic UIViewController;
+            // we, however, need a specific view controller (ResultsViewController) by downcasting ('as' keyword).
+            let destinationVC = segue.destination as! ResultsViewController
+            destinationVC.bmiValue = String(format: "%.1f", bmi)
+        }
     }
     
 }
